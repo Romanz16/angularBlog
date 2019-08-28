@@ -1,21 +1,104 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="blog">
+<div class="container">
+<div *ngIf="!authorizationStatus" class="login">Додавати записи в Блог можуть тільки авторизовані користувачі 
+  <div class="loginBtn"><button type="button" style="padding: 0 30px;" 
+  class="btn btn-success" data-toggle="modal" data-target="#loginModal">Авторизуватися</button>
+  </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div *ngIf="authorizationStatus" class="login">Вітаємо {{myLogin}} ви успішно авторизувались
+    <div class="loginBtn"><button type="button" style="padding: 0 30px;" 
+    class="btn btn-danger" (click)="exit()">Вийти</button>
+    </div>
+  </div>
+ <!--Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Авторизація</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="" name="f2" id="form">
+            <div class="error">{{error}}</div>
+            <div class="success">{{success}}</div>
+              <label for="login" class="col-form-label">Логін</label>
+              <input type="text" class="form-control" [(ngModel)]="login" name="login" placeholder="Введіть логін">
+              <label for="pass" class="col-form-label">Пароль</label>
+              <input type="password"  class="form-control" [(ngModel)]="pass" name="pass" placeholder="Введіть пароль"> 
+              <button type="button"  style="margin-top: 10px;" (click)="authorization()"
+                class="btn btn-success btn-block">Авторизуватися</button>
+              <button type="button"  style="margin-top: 10px;" (click)="registration()"
+                class="btn btn-warning btn-block">Зареєструватися</button>
+            </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- login modal -->
+
+<div *ngIf="authorizationStatus" class="addrecord">
+       <label for="login" class="col-form-label">Тема</label>
+       <input type="text" class="form-control" [(ngModel)]="titleBlog" name="titleBlog" >
+       <label for="content" class="col-form-label">Повідомлення</label>
+       <textarea class="form-control" name="content" [(ngModel)]="contentBlog" id="contentBlog" rows="3"></textarea>
+       <button type="button" style="margin-top: 10px;" (click)="addRecord()"
+        class="btn btn-success">Відправити</button>
+</div>
+
+<div class="blogContent" *ngFor="let record of recordBlog; let i=index">
+  <div class="blogRecord">
+    <div class="recordTitle">
+     <div class="title">{{record.title}}</div>
+     <div class="titleDetails">
+      <img src="../assets/image/Clock.png" width="16px" alt=""> Post by {{record.author}}, {{record.date}}
+      <br>
+      <button type="button" *ngIf="(record.author===myLogin || myRole==='admin')" class="btn btn-danger btn-sm" (click)="editRecord(i)" data-toggle="modal" data-target="#editModal">change</button>&nbsp;
+      <button type="button" *ngIf="(record.author===myLogin || myRole==='admin')" class="btn btn-secondary btn-sm" (click)="deleteRecord(i)">remove</button>
+    </div>
+    </div>
+    <div class="recordContent">
+    {{record.content}}
+    </div>
+  </div>
+</div>
+
+<!--edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Редагування</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="" name="f2" id="form">
+            <div class="error">{{error}}</div>
+            <div class="success">{{success}}</div>
+              <label for="login" class="col-form-label">Тема:</label>
+              <input type="text" class="form-control" [(ngModel)]="editTitle" name="editTitle" >
+              <label for="contentBlog1" class="col-form-label">Повідомлення</label>
+              <textarea class="form-control" name="editContent" [(ngModel)]="editContent" id="contentBlog1" rows="3"></textarea> 
+              <button type="button"  style="margin-top: 10px;" (click)="saveEdit()"
+                class="btn btn-success btn-block">Зберегти зміни</button>
+            </form>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- edit modal -->
+
+</div>
+</div>
+
+
 
 <router-outlet></router-outlet>

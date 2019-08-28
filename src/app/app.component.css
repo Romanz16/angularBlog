@@ -1,0 +1,55 @@
+
+.blog{
+    background-color: rgb(237, 241, 192);
+    min-height: 100vh;
+
+}
+.container{
+    width: 60%;
+    margin: 0 auto;
+}
+.login{
+    line-height: 34px;
+    font-size: 16px;
+    position: relative;
+    right: 0px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+}
+.error{
+    font-size: 16px;
+    color: red;
+}
+.success{
+    font-size: 16px;
+    color: rgb(90, 206, 90);
+}
+.blogContent{
+    padding: 10px 5px;
+}
+.blogRecord{
+    border: 1px solid blue;
+    border-radius: 5px;
+}
+.recordTitle{
+    background-color: rgb(109, 156, 245);
+    padding: 10px 5px 5px 5px;
+}
+.title{
+    font-size: 26px;
+    padding: 3px 0px;
+}
+.titleDetails{
+    font-size: 12px;
+    line-height: 16px;
+}
+.btn-sm{
+    padding: 0 2px;
+    margin: 2px;
+    font-size: 12px;
+}
+.recordContent{
+    background-color: rgb(164, 207, 226);
+    padding: 20px 5px 10px 5px;
+}

@@ -2,7 +2,7 @@
 <div class="container">
 <div *ngIf="!authorizationStatus" class="login">Додавати записи в Блог можуть тільки авторизовані користувачі 
   <div class="loginBtn"><button type="button" style="padding: 0 30px;" 
-  class="btn btn-success" data-toggle="modal" data-target="#loginModal">Авторизуватися</button>
+  class="btn btn-success" data-toggle="modal" data-target="#loginModal" (click)="loginForm()">Авторизуватися</button>
   </div>
 </div>
 <div *ngIf="authorizationStatus" class="login">Вітаємо {{myLogin}} ви успішно авторизувались

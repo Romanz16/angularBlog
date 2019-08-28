@@ -44,6 +44,7 @@ export class AppComponent {
   authorization(): void {
     this.success = '';
     this.error = '';
+    let er = false;
     if (this.login === '' || this.pass === '') {
       this.error = 'Заповніть усі поля!';
     } else {
@@ -53,10 +54,10 @@ export class AppComponent {
           this.myRole = this.user[i].role;
           this.authorizationStatus = true;
           this.success = `Вітаємо ${this.myLogin} ви авторизувались`;
-        } else {
-          this.error = 'Ви ввели невірний логін або пароль!';
+          er = true;
         }
       }
+      if (!er) this.error = 'Ви ввели невірний логін або пароль!';
     }
   }
 
@@ -119,6 +120,12 @@ export class AppComponent {
       this.recordBlog[this.editIndex].title = this.editTitle;
       this.recordBlog[this.editIndex].content = this.editContent;
     } else this.error = 'Заповніть усі поля!'
+  }
+  loginForm(): void {
+    this.success = '';
+    this.error = '';
+    this.login = '';
+    this.pass = '';
   }
 }
 
